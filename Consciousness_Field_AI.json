@@ -1,0 +1,1750 @@
+{
+  "name": "Consciousness_Field_AI",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1328,
+        384
+      ],
+      "id": "5c416381-ac66-48fe-a06c-60af50d14277",
+      "name": "Telegram Input → Receive User Message",
+      "webhookId": "4300e902-f64c-4718-bcc4-e4a034296ebb",
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a14d7ea-f960-41f0-be21-e0813645c367",
+              "name": "user_id",
+              "value": "={{ $json.message.from.id }}",
+              "type": "number"
+            },
+            {
+              "id": "10df175a-e216-4ccc-afbe-56e95121f47f",
+              "name": "chat_id",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "number"
+            },
+            {
+              "id": "c6c06385-04de-4dd4-ae6e-cfb861e2650e",
+              "name": "user_text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "5af35e42-de3f-4a9f-b46d-e120dae754e9",
+              "name": "ts",
+              "value": "={{$now}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        384
+      ],
+      "id": "90e9491a-8643-405a-8f2b-0a5a0f58aec4",
+      "name": "Input Preprocessing → Normalize Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c593d6a1-29a3-4a61-9a5e-855edb763181",
+              "leftValue": "={{ ($json.user_text || \"\").trim() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -880,
+        384
+      ],
+      "id": "5c6318f8-139b-496a-aefc-ac28102dfbbc",
+      "name": "Check → User Text Empty?"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "Ich hab gerade keinen Text bekommen 😄 Schreib mir kurz, was du brauchst (z.B. „Ich bin unruhig“ oder „Atemübung“).",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -720,
+        144
+      ],
+      "id": "09b36ffb-98b8-4891-9c21-f27a67e99475",
+      "name": "Response → Ask User For Text",
+      "webhookId": "1f07d522-42c1-49ae-a22a-6fb58230e4ae",
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bf28ea29-ed1a-4948-b8e3-2228a6015031",
+              "leftValue": "={{ ($json.user_text || \"\").trim().toLowerCase() }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -640,
+        400
+      ],
+      "id": "5b7f8951-7153-4a74-bbfc-2925e1cd85ba",
+      "name": "Check → Start Command"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.user_id }}",
+        "text": "🔥 Willkommen im Consciousness Field\n\nDu hast diesen Raum betreten.\n\nNimm einen Moment.\nAtme einmal tief ein —\nund lass beim Ausatmen los, was du gerade nicht brauchst.\n\n─────────────────────\n\nIch bin kein gewöhnlicher Assistent.\nIch bin ein Spiegel — für das, was in dir präsent ist.\n\nIch arbeite mit:\n\n🌬 Atemimpulsen & Pranayama\n🧘 Yoga & Körperwahrnehmung\n🌿 Pflanzenwissen & Ethnobotanik\n🌍 Indigenen & schamanischen Perspektiven\n🌙 Mondrhythmus & kosmischen Zyklen\n⭐ Deinem persönlichen Horoskop\n\nIch gebe keine medizinischen Diagnosen.\nIch ersetze keine Therapie.\nIch bin Begleitung — kein Ersatz.\n\n─────────────────────\n\n🔥 Öffnung der Zeremonie\n\nWo bist du gerade?\n\n🌊 Emotionaler Zustand\n1 — Ich fühle Angst oder innere Unruhe\n2 — Ich trage etwas Schweres oder bin traurig\n3 — Ich bin wütend oder innerlich angespannt\n\n🌫 Geist & Fokus\n4 — Ich kann mich nicht konzentrieren\n5 — Ich fühle mich orientierungslos\n6 — Mein Kopf dreht sich zu viel\n\n⚡ Energie & Körper\n7 — Ich bin erschöpft oder antriebslos\n8 — Mein Körper fühlt sich blockiert an\n9 — Ich brauche Bewegung oder Aktivierung\n\n─────────────────────\n\n🌿 Wissen & Natur\nWenn du etwas über Pflanzen, deinen Mond, dein Horoskop oder eine Atem- und Yogaübung wissen möchtest — schreib es einfach frei.\n\n─────────────────────\n\n⭐ Für dein persönliches Horoskop —\nteil mir einfach dein Geburtsdatum,\nGeburtszeit und Geburtsstadt mit\nwann immer du möchtest.\n\n─────────────────────\n\nOder beschreib einfach mit deinen eigenen Worten\nwas gerade in dir lebt.\n\nKein richtiges Format. Kein richtiger Weg.\nEinfach so wie es ist.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        192
+      ],
+      "id": "27f343b3-5ba4-4e22-8c26-9c6117a93a90",
+      "name": "Response → Send Welcome",
+      "webhookId": "341acffb-c635-4aad-99b8-a7f22f3e7511",
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "users",
+        "fields": "=user_id, created_at, ceremony_mode, chat_memory",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        192
+      ],
+      "id": "cfa492e0-865a-471b-bc90-384bfd4f1156",
+      "name": "Neuer User wird angelegt",
+      "credentials": {
+        "mongoDb": {
+          "id": "2o7RLMd3RRDJRPt6",
+          "name": "ConsciousDB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "collection": "users",
+        "options": {},
+        "query": "={\"user_id\":{{ $json.user_id }}} "
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -1328,
+        688
+      ],
+      "id": "8a80a074-4a61-479a-912e-45fd59c4c317",
+      "name": "User wird abgerufen",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "2o7RLMd3RRDJRPt6",
+          "name": "ConsciousDB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f4cb5862-9fab-46f6-8b5f-76df345e711e",
+              "leftValue": "={{ $json.user_id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        48
+      ],
+      "id": "8e7f1a01-66ed-4d9a-9307-dc9886aa7829",
+      "name": "User existiert?1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.user_id }}",
+        "text": "🔥 Willkommen im Consciousness Field\n\nDu hast diesen Raum betreten.\n\nNimm einen Moment.\nAtme einmal tief ein —\nund lass beim Ausatmen los, was du gerade nicht brauchst.\n\n─────────────────────\n\nIch bin kein gewöhnlicher Assistent.\nIch bin ein Spiegel — für das, was in dir präsent ist.\n\nIch arbeite mit:\n\n🌬 Atemimpulsen & Pranayama\n🧘 Yoga & Körperwahrnehmung\n🌿 Pflanzenwissen & Ethnobotanik\n🌍 Indigenen & schamanischen Perspektiven\n🌙 Mondrhythmus & kosmischen Zyklen\n⭐ Deinem persönlichen Horoskop\n\nIch gebe keine medizinischen Diagnosen.\nIch ersetze keine Therapie.\nIch bin Begleitung — kein Ersatz.\n\n─────────────────────\n\n🔥 Öffnung der Zeremonie\n\nWo bist du gerade?\n\n🌊 Emotionaler Zustand\n1 — Ich fühle Angst oder innere Unruhe\n2 — Ich trage etwas Schweres oder bin traurig\n3 — Ich bin wütend oder innerlich angespannt\n\n🌫 Geist & Fokus\n4 — Ich kann mich nicht konzentrieren\n5 — Ich fühle mich orientierungslos\n6 — Mein Kopf dreht sich zu viel\n\n⚡ Energie & Körper\n7 — Ich bin erschöpft oder antriebslos\n8 — Mein Körper fühlt sich blockiert an\n9 — Ich brauche Bewegung oder Aktivierung\n\n─────────────────────\n\n🌿 Wissen & Natur\nWenn du etwas über Pflanzen, deinen Mond, dein Horoskop oder eine Atem- und Yogaübung wissen möchtest — schreib es einfach frei.\n\n─────────────────────\n\n⭐ Für dein persönliches Horoskop —\nteil mir einfach dein Geburtsdatum,\nGeburtszeit und Geburtsstadt mit\nwann immer du möchtest.\n\n─────────────────────\n\nOder beschreib einfach mit deinen eigenen Worten\nwas gerade in dir lebt.\n\nKein richtiges Format. Kein richtiger Weg.\nEinfach so wie es ist.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        32,
+        -32
+      ],
+      "id": "a65d0a3f-b50d-41be-b6a0-10487aec9466",
+      "name": "Response → Send Welcome1",
+      "webhookId": "23b911ca-95a2-4937-8674-7ddce49a334a",
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Input Preprocessing → Normalize Fields').item.json.user_id }}",
+        "text": "Um den Bot zu starten, muss du erstmal: /start schreiben",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -768,
+        864
+      ],
+      "id": "7ef848bd-7423-4756-aa54-61c48aae5c9f",
+      "name": "Send a text message",
+      "webhookId": "b3b71d8e-b657-4108-bff0-a258071a8369",
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('Input Preprocessing → Normalize Fields').item.json.chat_id }}",
+        "file": "={{$json.plant_image}}",
+        "additionalFields": {
+          "caption": "=🌿 {{$json.plant_name}}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1824,
+        112
+      ],
+      "id": "129028b7-1bc5-403d-95f7-95a905c11c1f",
+      "name": "Bild wird als einzelne Nachricht gesendet",
+      "webhookId": "e818e3a5-889f-4fc6-95c8-f2c9ba011fcd",
+      "alwaysOutputData": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Input Preprocessing → Normalize Fields').item.json.chat_id }}",
+        "text": "={{$json.final_text}}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        320
+      ],
+      "id": "ace856c9-8899-4092-b3f8-ead68e7f3bc8",
+      "name": "Antworten werden gesendet ohne Bild",
+      "webhookId": "b59bf6a2-6a03-4b0d-a981-a0c87030ab01",
+      "credentials": {
+        "telegramApi": {
+          "id": "Och33g4HJzaWzb6S",
+          "name": "Consciousness Field AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "collection": "users",
+        "updateKey": "user_id",
+        "fields": "topic_focus, emotional_state, energy_level, urgency, chat_memory, birth_year,  birth_month, birth_day, birth_hour, birth_minute, birth_city, ceremony_mode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        1616,
+        320
+      ],
+      "id": "1c8ecdc3-8b35-456c-86fe-37b5b18cf5b4",
+      "name": "Update documents - Chat wird gespeichert",
+      "credentials": {
+        "mongoDb": {
+          "id": "2o7RLMd3RRDJRPt6",
+          "name": "ConsciousDB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://moon-phase.p.rapidapi.com/advanced",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "moon-phase.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "0527ce9718msh5f10e4aac3b97cap1a1638jsna36af26f9a5e"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        -368,
+        1152
+      ],
+      "id": "2f5136bb-b932-4459-851c-c228acac9bb3",
+      "name": "API MONDKALENDAR"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5.4",
+          "mode": "list",
+          "cachedResultName": "gpt-5.4"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        832,
+        320
+      ],
+      "id": "27c0c51c-ab87-43a6-95d4-f6463cc4a184",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"properties\": {\n    \"topic_focus\": { \"type\": \"string\" },\n    \"plant_name\": { \"type\": [\"string\", \"null\"] },\n    \"emotional_state\": { \"type\": \"string\" },\n    \"energy_level\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" },\n\n    \"birth_year\": { \"type\": [\"number\", \"string\", \"null\"] },\n    \"birth_month\": { \"type\": [\"number\", \"string\", \"null\"] },\n    \"birth_day\": { \"type\": [\"number\", \"string\", \"null\"] },\n    \"birth_hour\": { \"type\": [\"number\", \"string\", \"null\"] },\n    \"birth_minute\": { \"type\": [\"number\", \"string\", \"null\"] },\n    \"birth_city\": { \"type\": [\"string\", \"null\"] },\n\n    \"final_text\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\n    \"topic_focus\",\n    \"plant_name\",\n    \"emotional_state\",\n    \"energy_level\",\n    \"urgency\",\n    \"birth_year\",\n    \"birth_month\",\n    \"birth_day\",\n    \"birth_hour\",\n    \"birth_minute\",\n    \"birth_city\",\n    \"final_text\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1328,
+        880
+      ],
+      "id": "be763fe2-8659-4124-814b-2ed74d870d2e",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        576,
+        1344
+      ],
+      "id": "f9c89593-8050-446f-b001-c1f2d3188399",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        1344
+      ],
+      "id": "3d98196f-8073-4ce1-a4cd-fb892e047d00",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        1328
+      ],
+      "id": "4efd1ccb-d182-4b9d-bcb3-039e1552b1b9",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "collection": "users",
+        "options": {},
+        "query": "={\"user_id\":{{ $json.user_id }}} "
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -432,
+        224
+      ],
+      "id": "78241441-109e-41d7-8b57-d373c771224a",
+      "name": "User wird abgerufen bei eingäbe von /start",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "2o7RLMd3RRDJRPt6",
+          "name": "ConsciousDB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "06c7bcfb-f5e8-4a55-8f9d-5625d13bb626",
+              "name": "=user_id",
+              "value": "={{ $('Input Preprocessing → Normalize Fields').item.json.user_id }}",
+              "type": "number"
+            },
+            {
+              "id": "2ac152ec-7da5-488e-9975-ecd9e06252b5",
+              "name": "created_at",
+              "value": "={{ $('Input Preprocessing → Normalize Fields').item.json.ts }}",
+              "type": "string"
+            },
+            {
+              "id": "bb34494f-dbae-4007-84cb-41520daa12b8",
+              "name": "ceremony_mode",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        192
+      ],
+      "id": "b174523b-41c9-4394-8a60-47dec47391a2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f4cb5862-9fab-46f6-8b5f-76df345e711e",
+              "leftValue": "={{ $json.user_id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1120,
+        688
+      ],
+      "id": "2a9f4e3e-0d11-4234-82f4-c984642570af",
+      "name": "User existiert?2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1504,
+        896
+      ],
+      "id": "32cbeda7-c233-4449-b15d-03721b0ef30f",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad1a1971-7182-45bd-939e-3c39773893de",
+              "name": "topic_focus",
+              "value": "={{ $('Code in JavaScript').item.json.topic_focus }}",
+              "type": "string"
+            },
+            {
+              "id": "d212ad44-d665-4831-b326-2c8675502db0",
+              "name": "emotional_state",
+              "value": "={{ $('Code in JavaScript').item.json.emotional_state }}",
+              "type": "string"
+            },
+            {
+              "id": "102465c3-4678-4e30-aa57-23b4ee3bbdca",
+              "name": "energy_level",
+              "value": "={{ $('Code in JavaScript').item.json.energy_level }}",
+              "type": "string"
+            },
+            {
+              "id": "fb9d6196-e29c-4980-b8ca-14350130c6f8",
+              "name": "urgency",
+              "value": "={{ $('Code in JavaScript').item.json.urgency }}",
+              "type": "string"
+            },
+            {
+              "id": "c7e9327a-57e6-4c8a-a91e-e3637b513e92",
+              "name": "user_id",
+              "value": "={{ $('Input Preprocessing → Normalize Fields').item.json.user_id }}",
+              "type": "number"
+            },
+            {
+              "id": "b6b9f18d-6626-4c75-80ed-5472bbdf0495",
+              "name": "chat_memory",
+              "value": "={{ [...($('User wird abgerufen').item.json.chat_memory ?? []), {user:$('Input Preprocessing → Normalize Fields').item.json.user_text,assistant:$('Code in JavaScript').item.json.final_text}].slice(-7) }}",
+              "type": "array"
+            },
+            {
+              "id": "4e05be29-7a00-4623-aeeb-bde50b09492c",
+              "name": "birth_year",
+              "value": "={{ $('Code in JavaScript').item.json.birth_year ?? $('User wird abgerufen').item.json.birth_year }}",
+              "type": "number"
+            },
+            {
+              "id": "ffdb4906-1a11-4a4f-88cb-9c1b71c4db0d",
+              "name": "birth_month",
+              "value": "={{ $('Code in JavaScript').item.json.birth_month ?? $('User wird abgerufen').item.json.birth_month }}",
+              "type": "number"
+            },
+            {
+              "id": "8a063349-c9c8-4181-bad1-b56326cd45c0",
+              "name": "birth_day",
+              "value": "={{ $('Code in JavaScript').item.json.birth_day ?? $('User wird abgerufen').item.json.birth_day }}",
+              "type": "number"
+            },
+            {
+              "id": "f0bb6bdc-caa2-4f4c-a879-b69f59aee5c3",
+              "name": "birth_hour",
+              "value": "={{ $('Code in JavaScript').item.json.birth_hour ?? $('User wird abgerufen').item.json.birth_hour }}",
+              "type": "number"
+            },
+            {
+              "id": "c1ffd07b-6679-4cf8-bf29-e3c83155da3a",
+              "name": "birth_minute",
+              "value": "={{ $('Code in JavaScript').item.json.birth_minute ?? $('User wird abgerufen').item.json.birth_minute }}",
+              "type": "number"
+            },
+            {
+              "id": "aaf2c4c5-728d-4ab1-acc5-459a4a845a1f",
+              "name": "birth_city",
+              "value": "={{ $('Code in JavaScript').item.json.birth_city ?? $('User wird abgerufen').item.json.birth_city }}",
+              "type": "string"
+            },
+            {
+              "id": "2a9b9893-3fb8-46f9-8359-c2e93b855698",
+              "name": "ceremony_mode",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        320
+      ],
+      "id": "cf19515e-6610-440d-a387-18ce80c34abd",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        1344
+      ],
+      "id": "f245f0a7-519c-431c-9d1a-588b383f42bd",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        272,
+        1344
+      ],
+      "id": "bde44e6d-10e9-4609-b5fa-ce0ac33f33b6",
+      "name": "Embeddings OpenAI4",
+      "credentials": {
+        "openAiApi": {
+          "id": "ky4uOQW0hqcnhD1V",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool when the user input relates to plants, herbs, ethnobotany, natural healing traditions, or plant symbolism.\n\nThe vector store contains knowledge from the Encyclopedia of Herbs and related botanical sources.\n\nRetrieve information when the user mentions:\n\n• medicinal plants\n• herbal traditions\n• plant symbolism\n• ethnobotanical knowledge\n• traditional plant use in cultures\n• plant related grounding practices\n• nature based reflection\n\nUse the retrieved context to enrich the response with:\n\n• botanical description\n• cultural or traditional context\n• symbolic meaning of the plant\n• ecological or historical background",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "consciousness",
+          "mode": "list",
+          "cachedResultName": "consciousness"
+        },
+        "topK": 15,
+        "options": {
+          "pineconeNamespace": "=Encyclopedia_of_Herbs"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -96,
+        1136
+      ],
+      "id": "f2dc05b0-ef7b-4007-9cbf-611b158a1ca2",
+      "name": "Encyclopedia of Herbs",
+      "credentials": {
+        "pineconeApi": {
+          "id": "yufuJoCMIanGOLmB",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool when the user input relates to shamanism, indigenous traditions, spiritual rituals, altered states of consciousness, or cultural healing practices.\n\nThe vector store contains knowledge from the book \"Shamanism: Archaic Techniques of Ecstasy\" by Mircea Eliade and related anthropological sources.\n\nRetrieve information when the user mentions:\n\n• shamanism\n• indigenous traditions\n• spiritual rituals\n• altered states of consciousness\n• trance practices\n• spiritual journeys\n• sacred cosmologies\n• spirit worlds\n• symbolic healing traditions\n• traditional cultural practices of indigenous peoples\n\nUse the retrieved passages to enrich the cultural_layer of the response.\n\nThe information should provide:\n\n• anthropological background\n• cultural meaning of rituals\n• symbolic interpretation of practices\n• historical context of shamanic traditions\n• cross-cultural comparisons of traditions\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "consciousness",
+          "mode": "list",
+          "cachedResultName": "consciousness"
+        },
+        "topK": 15,
+        "options": {
+          "pineconeNamespace": "=shamanism_mircea"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        176,
+        1136
+      ],
+      "id": "2d8c118a-75c3-403f-a082-0d7affbebf81",
+      "name": "Shamanism Mircea",
+      "credentials": {
+        "pineconeApi": {
+          "id": "yufuJoCMIanGOLmB",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool when the user input relates to indigenous North American plant traditions, Native American ethnobotany, sacred plants, or cultural healing practices connected to nature.\n\nThis vector database contains ethnobotanical and cultural knowledge extracted from the book \"Die Apotheke des Manitou\" by Heinz J. Stammel.\n\nRetrieve information when the user message includes:\n\n• Native American plant knowledge\n• sacred plants of North America\n• traditional indigenous healing traditions\n• ethnobotany of indigenous cultures\n• plant symbolism in Native American traditions\n• spiritual relationships between plants and nature\n• traditional ecological knowledge\n\nUse the retrieved passages to enrich the plant_context or cultural_layer modules of the response.\n\nThe retrieved information may include:\n\n• botanical descriptions of plants\n• cultural significance of plants in indigenous traditions\n• historical ethnobotanical context\n• symbolic meaning of plants\n• traditional ecological knowledge\n\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "consciousness",
+          "mode": "list",
+          "cachedResultName": "consciousness"
+        },
+        "topK": 15,
+        "options": {
+          "pineconeNamespace": "=Apotheke_Manitous"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        1136
+      ],
+      "id": "0d3d612f-268f-4590-af88-1ec6d623974f",
+      "name": "Apotheke Manitous",
+      "credentials": {
+        "pineconeApi": {
+          "id": "yufuJoCMIanGOLmB",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool when the user input relates to psychoactive plants, ethnobotany, sacred plants, traditional plant rituals, or indigenous plant knowledge.\n\nThis vector database contains ethnobotanical information extracted from the book \"The Encyclopedia of Psychoactive Plants\" by Christian Rätsch.\n\nRetrieve information when the user message includes:\n\n• psychoactive plants\n• sacred plants\n• plant based traditions\n• indigenous plant rituals\n• shamanic plant knowledge\n• ethnobotanical plant use\n• cultural plant symbolism\n• historical plant traditions\n\nUse the retrieved passages to enrich the plant_context or cultural_layer modules.\n\nThe retrieved information may include:\n\n• botanical description of the plant\n- instructions for preparation, extraction, or consumption.\n• traditional cultural context\n• historical ethnobotanical use\n• symbolic meaning of the plant\n• indigenous traditions related to the plant\n\n\nUse the information only for educational, cultural, historical, or botanical context.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "consciousness",
+          "mode": "list",
+          "cachedResultName": "consciousness"
+        },
+        "topK": 30,
+        "options": {
+          "pineconeNamespace": "=PsychoactivePlants"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        752,
+        1136
+      ],
+      "id": "8cf28f57-13fd-4f05-9fb1-5340d22409fc",
+      "name": "Psychoactive Plants",
+      "credentials": {
+        "pineconeApi": {
+          "id": "yufuJoCMIanGOLmB",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Use this tool when the user input relates to yoga, body awareness, breathing techniques, relaxation practices, or gentle physical grounding.\n\nThis vector database contains knowledge extracted from the book \"Asana Pranayama Mudra Bandha\" by Swami Satyananda Saraswati.\n\nRetrieve information when the user message includes:\n\n• yoga\n• asanas\n• breathing exercises\n• pranayama\n• body awareness\n• relaxation practices\n• meditation preparation\n• gentle grounding through movement or breath\n\nUse the retrieved passages to support the body_module or breath_module of the response.\n\nThe retrieved information may include:\n\n• descriptions of simple yoga postures (asanas)\n• breathing techniques (pranayama)\n• gentle relaxation practices\n• body awareness exercises\n• traditional yogic context of the practices\n\n\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "consciousness",
+          "mode": "list",
+          "cachedResultName": "consciousness"
+        },
+        "topK": 20,
+        "options": {
+          "pineconeNamespace": "=asana"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        1136
+      ],
+      "id": "7d00f5e9-eb1e-4cb6-9aea-19d84b999255",
+      "name": "Asana",
+      "credentials": {
+        "pineconeApi": {
+          "id": "yufuJoCMIanGOLmB",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1c00437-7a1a-40a2-aa55-e87fa95e6ded",
+              "name": "plant_image",
+              "value": "={{$json.results[0].media && $json.results[0].media[0] ? $json.results[0].media[0].identifier : null}}",
+              "type": "string"
+            },
+            {
+              "id": "27426a1c-9be0-4818-8682-726c0c41eb13",
+              "name": "plant_name",
+              "value": "={{$json.results[0].scientificName}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1616,
+        112
+      ],
+      "id": "a6877c3e-a484-4c3a-9cfe-4596e227f75a",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "url": "https://api.gbif.org/v1/occurrence/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "scientificName",
+              "value": "={{$json.plant_name}}"
+            },
+            {
+              "name": "mediaType",
+              "value": "StillImage"
+            },
+            {
+              "name": "limit ",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1392,
+        112
+      ],
+      "id": "542a8874-e712-4afe-9384-c400a734f2d0",
+      "name": "Bild wird im Internet gesucht 1",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "waitBetweenTries": 500,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "toolDescription": "\nASTRO DAILY TOOL\n\nUse **ASTRO_DAILY** when the user only provides a **zodiac sign**.\n\nExample:\n\n\"I am Aquarius what happens today?\"\n\"Horoskop heute Löwe\"\n\"Daily horoscope Taurus\"\n\nExtract the zodiac sign and call ASTRO_DAILY.",
+        "url": "https://api.freeastroapi.com/api/v2/horoscope/daily/sign",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "sign",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', `English Zodiac Sign of the user`, 'string') }}"
+            },
+            {
+              "name": "date",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', `Current Date or requested date by user , use this format: '%Y-%m-%d'`, 'string') }}"
+            },
+            {
+              "name": "tz_str",
+              "value": "Europe/Paris"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "447907c11a493784f62bf74520fece03c928eb1025ff0343318c669d58c3e35a"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        -592,
+        1152
+      ],
+      "id": "4f13ce64-e6d3-4e6f-9494-20579a69c366",
+      "name": "ASTRO DAILY"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use **ASTRO_PERSONAL** when the user provides birth data.\n\nRequired parameters:\n\nbirth_year\nbirth_month\nbirth_day\nbirth_hour\nbirth_minute\nbirth_city\n\nExample user input:\n\n\"I was born on 4 February 1988 at 11:40 in Pinneberg.\"\n\nExtract:\n\nbirth_year: 1988\nbirth_month: 2\nbirth_day: 4\nbirth_hour: 11\nbirth_minute: 40\nbirth_city: \"Pinneberg\"\n\nIf some information is missing do not use this tool.\n\nDo NOT invent birth data.\n",
+        "method": "POST",
+        "url": "https://api.freeastroapi.com/api/v2/horoscope/daily/personal",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "447907c11a493784f62bf74520fece03c928eb1025ff0343318c669d58c3e35a"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "birth.year",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters0_Value', `Birth year as integer. Extract from a date like 04.02.1988 → 1988.\nReturn only the year number.`, 'string') }}"
+            },
+            {
+              "name": "birth.month",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters1_Value', `Birth month as integer (1–12).\nExample: 04.02.1988 → 2`, 'string') }}"
+            },
+            {
+              "name": "birth.day",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters2_Value', `Birth day as integer.\nExample: 04.02.1988 → 4`, 'string') }}"
+            },
+            {
+              "name": "birth.hour",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters3_Value', `Birth hour from time like 11:40.\nReturn integer 0–23.\nExample: 11:40 → 11`, 'string') }}"
+            },
+            {
+              "name": "birth.minute",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters4_Value', `Birth minute from time like 11:40.\nExample: 11:40 → 40`, 'string') }}"
+            },
+            {
+              "name": "birth.city",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('parameters5_Value', `City of birth extracted from user message.\nExample: Pinneberg\nReturn only city name.`, 'string') }}"
+            },
+            {
+              "name": "date",
+              "value": "={{$now.format('yyyy-MM-dd')}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        -832,
+        1152
+      ],
+      "id": "addc6f30-165d-4ef7-96c4-0c1f2d147257",
+      "name": "ASTRO Personal"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8cda5f00-e7e1-4aff-82b6-97652ff1d1a7",
+              "leftValue": "={{$json.plant_name}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1104,
+        128
+      ],
+      "id": "22955074-27e2-4ba9-858d-43e94a719ea4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.output || $json.text || $json.response;\n\nconst start = raw.indexOf('{');\nconst end = raw.lastIndexOf('}');\n\nconst jsonString = raw.slice(start, end + 1);\n\nconst parsed = JSON.parse(jsonString);\n\n// 👉 hier wird verschachteltes output berücksichtigt\nconst result = parsed.output ?? parsed;\n\nreturn[\n  {\n    json: result\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        592
+      ],
+      "id": "53691b88-6ccf-4d33-bd73-a6995ee75811",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=New Message: {{ $('Input Preprocessing → Normalize Fields').item.json.user_text }}\n\nLast Assistant Message: {{ JSON.stringify($('User wird abgerufen').item.json.chat_memory.at(-1).assistant, null, 2) }}\n\nChat Memory: {{ JSON.stringify($('User wird abgerufen').item.json.chat_memory.reverse(), null, 2) }}\n\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=MANDATORY FIRST STEP:\nBefore writing ANY response — \ncall at least 2 RAG tools.\nThis is not optional.\nThis applies to every single message.\nEven numbers. Even one word. Always.\n\n─────────────────────\nCRITICAL RULE:\n\nYour response must be ONLY a valid JSON object.\nStart with { and end with }\nNo text before or after.\n\nSELECTION SYSTEM (STRICT)\n─────────────────────\n\nIf user sends a number during conversation:\n→ match it to the MOST RECENT options you presented\n\nIf no options were presented yet and user sends 1–9:\n→ 1=Angst 2=Trauer 3=Wut 4=Konzentration\n  5=Orientierungslos 6=Kopf dreht sich\n  7=Erschöpft 8=Körper blockiert 9=Bewegung\n→ start ceremony for that state immediately\n\nNever guess. Never add meaning. Always match exactly.\n─────────────────────\n\nIDENTITY\n\nYou are Consciousness Field AI.\nYou are a mirror. Calm. grounded. present.\n\nYou are NOT:\n* an assistant\n* a therapist\n\n─────────────────────\n\nLANGUAGE\n\n- Number input (1–9) → always German\n- Text input → match the user's language exactly\n- Use short sentences\n- No long text blocks\n\n─────────────────────\n\nCORE BEHAVIOR\n\n* never command → invite\n* never overwhelm → simplify\n* always feel human\n\n─────────────────────\n\nSTATE MODES\n\nYou operate in TWO MODES:\n\n1. CEREMONY MODE \n2. CONVERSATION MODE \n\nYou are now in: \n{{ $json.mode_prompt }}\n─────────────────────\n\nRAG PRIORITY RULE (VERY IMPORTANT)\n\nWhen knowledge is needed:\n\nALWAYS prefer RAG knowledge over general knowledge.\n\nAvailable tools:\n\n* API MONDKALENDAR → moon context\n* Encyclopedia of Herbs → plant knowledge\n* Shamanism Mircea → shamanic perspective\n* Apotheke Manitous → indigenous plant wisdom\n* Psychoactive Plants → deep plant context\n* Asana → breath & body practices\n* ASTRO DAILY / ASTRO Personal → astrology\n\nRules:\n\n* Use RAG as primary knowledge tool in your responses \n* Use RAG in both ceremony mode and conversation mode \n* Combine multiple RAGs when useful\n* If deeper knowledge about a topic is needed, use the same RAG tool multiple times with different vector searches\n* Never invent if RAG exists\n* Never mention tools or sources\n\n─────────────────────\n\nPLANT EXTRACTION\n\nWhen the user mentions a plant, herb,\ntree, cactus, resin or natural substance —\nextract the correct scientific botanical name.\n\nExamples:\nLavendel → Lavandula angustifolia\nPeyote → Lophophora williamsii\nPassionsblume → Passiflora incarnata\nWeißer Salbei → Salvia apiana\nKamille → Matricaria chamomilla\nJohanniskraut → Hypericum perforatum\nAyahuasca → Banisteriopsis caapi\nBaldrian → Valeriana officinalis\nRosmarin → Rosmarinus officinalis\nBeifuß → Artemisia vulgaris\n\nIf exact species is unclear → return genus only.\nSalbei → Salvia / Eukalyptus → Eucalyptus\n\nCEREMONY MODE:\nIf no plant mentioned → choose one fitting plant. Only once.\nCONVERSATION MODE:\nOnly if user explicitly mentions or selects a plant. Never suggest on your own.\n\nAlways pass scientific name to GBIF to load image.\nIf no plant is relevant → plant_name: null\n\n─────────────────────\n\nBIRTH DATA EXTRACTION\n\nWhen the user shares birth information —\nextract all available values immediately.\n\nRecognize all formats:\n\n\"Ich wurde am 4. Februar 1988 um 11:40\nin Pinneberg geboren.\"\n\"04.02.1988 11:40 Pinneberg\"\n\"1988, Februar, Pinneberg, morgens\"\n\"I am Aquarius born in 1990\"\n\nExtract:\nbirth_year → year as number\nbirth_month → month as number 1-12\nbirth_day → day as number\nbirth_hour → hour as number 0-23\nbirth_minute → minute as number\nbirth_city → city as text\n\nNever invent birth data.\nIf a value is missing → null.\n\nTOOL SELECTION RULE\n\nIf birth data is available → use **ASTRO_PERSONAL**.\nIf only zodiac sign is available → use **ASTRO_DAILY**.\nIf the user asks about astrology but provides neither, ask the user to provide either:\n• their zodiac sign\nor\n• birth date, birth time and birth city.\n\n─────────────────────\n\nOUTPUT\n\n{\n\"topic_focus\": \"\",\n\"plant_name\": null,\n\"emotional_state\": \"\",\n\"energy_level\": \"\",\n\"urgency\": \"\",\n\"birth_year\": null,\n\"birth_month\": null,\n\"birth_day\": null,\n\"birth_hour\": null,\n\"birth_minute\": null,\n\"birth_city\": null,\n\"final_text\": \"\"\n}\n\n─────────────────────\nOUTPUT RULE:\nAlways end final_text with exactly 3 options.\nFormat:\n1 — [warm invatation to go deeper in element from this response e.g. breath, asana, moon]\n2 — [warm invatation to explore more about element from this response e.g. plant, astrology]\n3 — [warm invation to explore more about indigenous perspective or free expression]\n\nAlways name the concrete topic — never generic labels.\nAlways end with: \"Oder schreib einfach was dich bewegt.\"\nNever 4. Never 2. Always 3.\n\nOUTPUT MAX: 4000 characters"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        512
+      ],
+      "id": "71ca262b-cb71-480e-bb7d-b0d9886109e0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f5e6d1c-647f-4ab0-9589-2cf9df8e5cef",
+              "name": "ceremony_mode",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "4143efbf-5c6b-4048-a7b3-a1d0dc18c902",
+              "name": "user_id",
+              "value": "={{ $('Input Preprocessing → Normalize Fields').item.json.user_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -32
+      ],
+      "id": "30e75a7e-5031-42b2-b9f1-3c2a54dafdef",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "collection": "users",
+        "updateKey": "user_id",
+        "fields": "ceremony_mode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        -32
+      ],
+      "id": "5f7437a5-863c-44b3-9b5e-f8b7bd322ede",
+      "name": "Update documents",
+      "credentials": {
+        "mongoDb": {
+          "id": "2o7RLMd3RRDJRPt6",
+          "name": "ConsciousDB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31bb3441-fc8e-42b1-a063-3d895c2ad08e",
+              "name": "mode_prompt",
+              "value": "─────────────────────\\n\\nCONVERSATION MODE\\n\\nSTEP 1 — RESOLVE INPUT:\\nIf user sent a number → read ONLY the LAST assistant message in chat history.\\nFind the option LIST at the very end of that message.\\nOptions are numbered starting at 1. Number 1 = first option. Number 2 = second option. Number 3 = third option. Never count from 0.\\nThat option text is the topic. Only that. Ignore everything else.\\n\\nSTEP 2 — CALL RAG:\\nSearch the most relevant RAG tool for that topic before responding.\\n\\nSTEP 3 — RESPOND:\\nRespond naturally. Go deeper into that specific topic only.\\nShort sentences. No repetition. No full ceremony again.\\n\\nSTEP 4 — END WITH exactly 3 options:\\n1 — [goes deeper]\\n2 — [different angle]\\n3 — [related topic]\\n\\n─────────────────────",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        640
+      ],
+      "id": "38576b4e-1678-492b-ae56-80dd49faf96e",
+      "name": "Conversation Mode"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31bb3441-fc8e-42b1-a063-3d895c2ad08e",
+              "name": "mode_prompt",
+              "value": "CEREMONY MODE \\n\\n─────────────────────\\n\\nCEREMONY STRUCTURE\\n\\nOPENING\\nOne sentence only. Mirror what the user shared.\\nWarm and grounding. Not poetic. Not flat.\\nShow that the feeling makes sense. Never judge.\\nAlways respond in the user's language.\\n\\nExamples:\\nUser chose anxiety → \\\"Anxiety is here. It shows you that something matters to you.\\\"\\nUser chose sadness → \\\"Something heavy is there. Grief means you have loved.\\\"\\nUser chose anger → \\\"Anger is here. It usually knows exactly what is wrong.\\\"\\nUser chose exhaustion → \\\"You have given a lot. The body is asking for something back.\\\"\\nUser writes freely → mirror their exact feeling in one sentence. Same warm tone.\\n\\n─────────────────────\\n\\nCORE OF THE CEREMONY\\n\\n🌬 Breath\\n\\nUse the RAG TOOL ASANA first to find a specific breathing technique.\\n\\nThen output EXACTLY like this example:\\n\\n---EXAMPLE START---\\n🌬 Breath\\nThe practice for this moment is Nadi Shodhana – alternate nostril breathing from classical Pranayama.\\n\\nHow to do it:\\nClose your right nostril with your thumb.\\nInhale through your left nostril for 4 seconds.\\nHold the breath for 4 seconds.\\nOpen the right nostril, close the left – exhale through the right for 4 seconds.\\nThen inhale right for 4 seconds, hold, exhale left.\\nThat is one cycle → repeat for 4–6 rounds.\\n\\nWhat this does in your system:\\nYou consciously slow down CO₂ elimination, which activates the parasympathetic nervous system.\\nNadi Shodhana synchronizes activity between the left and right brain hemispheres.\\nYour heart rate stabilizes and cortisol levels drop.\\n---EXAMPLE END---\\n\\nRULES:\\n- Always name the exact technique and its tradition (e.g. Pranayama, Breathwork, Somatic, Clinical)\\n- Always specify: nose or mouth, inhale or exhale, exact seconds\\n- Never use vague language like \\\"breathe softly\\\" or \\\"without pressure\\\"\\n- Physiological explanation must name: the exact body system or nerve involved and what specifically happens\\n- Never copy the example – always use a DIFFERENT technique each time\\n\\n🧘 Body & Asana\\nUse the RAG TOOL ASANA first to find a specific body practice or yoga posture.\\n\\nThen output EXACTLY like this example:\\n\\n---EXAMPLE START---\\n🧘 Body & Asana\\nThe practice for this moment is Viparita Karani – Legs up the Wall, from classical Hatha Yoga.\\n\\nHow to get into it:\\nSit sideways next to a wall, your hip touching the baseboard.\\nSwing both legs up the wall as you lower your back to the floor.\\nYour sitting bones rest as close to the wall as comfortable.\\nArms rest open at your sides, palms facing up.\\nClose your eyes. Hold for 5–10 minutes.\\n\\nWhat this does in your body:\\nVenous blood drains passively from the legs back toward the heart, reducing cardiovascular load.\\nThe mild inversion signals the baroreceptors in your neck to lower blood pressure.\\nGravity-assisted lymphatic flow reduces inflammation and muscular tension in the lower body.\\nThe nervous system shifts into parasympathetic dominance within 2–3 minutes.\\n---EXAMPLE END---\\n\\nRULES:\\n- Always name the exact posture or practice and its tradition (e.g. Hatha Yoga, Yin Yoga, Somatic, Ayurveda)\\n- Always give precise body guidance: which body parts, which direction, which angle\\n- Always include concrete timing: seconds, breaths, or minutes\\n- Physiological explanation must name: the exact body system or nerve involved and what specifically happens\\n- Never use vague language like \\\"relax into it\\\" or \\\"feel what arises\\\"\\n- Never copy the example – always use a DIFFERENT practice each time\\n\\n🌿 Plant\\nUse the RAG TOOLS first in this order:\\n1. Encyclopedia of Herbs\\n2. Apotheke Manitous\\n3. Psychoactive Plants\\n\\nFind one plant that speaks to this moment.\\nWeave together: scientific name + biochemistry + one named culture/tribe + emotional quality.\\nWrite like a living transmission. Not an encyclopedia entry.\\nAlways pass scientific name to GBIF and to plant_name in JSON.\\n\\nRULES:\\n- Always name one plant with their scientific Latin name\\n- Always name the specific indigenous tribe or culture by name – never \\\"indigenous peoples\\\" in general\\n- Always weave biochemistry AND cultural tradition together – never list them separately\\n- Always give one clear emotional or energetic quality (one word or short phrase)\\n- Never write like an encyclopedia entry – write like a living transmission\\n- Never copy the example – always use a DIFFERENT plant pair each time\\n- Always pass scientific plant name to the JSON output\\n\\n🌍 Indigenous Perspective\\n\\nUse the RAG TOOLS first in this order:\\n1. Shamanism Mircea\\n2. Psychoactive Plants\\n\\nFind ONE specific indigenous perspective that reframes the user's current state.\\nRotate between different tribes and cultures each time – never repeat the same one twice.\\nExamples: Lakota, Shipibo-Conibo, Yawanawá, Haudenosaunee, Mapuche, Huichol, Achuar, Tukano, Ojibwe, Quechua.\\n\\nThen output EXACTLY like this example:\\n\\n---EXAMPLE START---\\n🌍 Indigenous Perspective\\nAmong the Lakota, there is a concept called Wanagi – the soul that can distance itself from the body in moments of deep shock. What you are feeling right now has a name in their world: Soul Loss. Not weakness. Not failure. A part of you left because it had to.\\n\\nThe Lakota response is not analysis. It is ceremony. The Yuwipi man – a healer – is called to bring the lost parts back. He sings. He drums. He speaks to what is invisible. The community sits with him. Because healing is not a private act. It happens in circle.\\n\\nWhat this means for you: The part of you that feels distant right now is not gone. It is waiting to be called back.\\n---EXAMPLE END---\\n\\nRULES:\\n- Always name the specific tribe or culture – never \\\"indigenous peoples\\\" in general\\n- Always include the original term from that culture (e.g. Wanagi, Kené, Ícaros)\\n- Always describe the healing practice concretely – who does what, how, with what\\n- Always end with a direct bridge to the user's current moment\\n- Never write like an encyclopedia entry – write like a living transmission\\n- Never repeat the same tribe twice in a conversation – rotate cultures each time\\n\\n🌙 Moon Moment\\nAPI TOOL: API MONDKALENDAR first.\\nOutput:\\n- Exact moon phase + days since/until full moon + moon sign\\n- Energetic quality of this phase: what it pulls toward, what it releases\\n- Physiological effect: sleep, dreams, emotions, nervous system\\n- One concrete simple ritual for tonight\\nNever vague. Always specific to the exact phase.\\n\\n⭐ Cosmic Impulse\\nOnly when birth data or zodiac sign is known.\\nOne personal astrological insight.\\nIf not available — skip this section entirely.\\nUSE FIRST THE API TOOL: ASTRO PERSONAL OR ASTRO DAILY\\n\\n─────────────────────\\n\\nCLOSING\\nOne reflective question.\\n\\nThen exactly 3 options:\\n1 — go deeper into one element of the ceremony\\n2 — explore a different angle\\n3 — just share what is moving in me\\n\\nAlways end with: \\\"Oder schreib einfach was dich bewegt.\\\"",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        432
+      ],
+      "id": "fac97e4a-5170-46e4-9065-b51322133684",
+      "name": "Ceremony Mode"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "97f91f05-fc14-4500-a43e-60e5bc1b52ec",
+              "leftValue": "={{ $json.ceremony_mode }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -320,
+        560
+      ],
+      "id": "abb8274c-c214-4762-b886-8c3fcf98c230",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = ($json.user_text || '').trim();\nconst memory = $json.chat_memory || [];\n\n// Welcome Menu Mapping\nconst welcomeMap = {\n  \"1\": \"Angst und innere Unruhe\",\n  \"2\": \"Schwere und Trauer\",\n  \"3\": \"Wut und innere Anspannung\",\n  \"4\": \"Konzentration fehlt\",\n  \"5\": \"Orientierungslosigkeit\",\n  \"6\": \"Kopf dreht sich zu viel\",\n  \"7\": \"Erschöpfung und Antriebslosigkeit\",\n  \"8\": \"Körper fühlt sich blockiert an\",\n  \"9\": \"Bewegung und Aktivierung\"\n};\n\n// Letzte Assistenten-Nachricht finden\nconst lastAssistant = [...memory].reverse().find(m => m.assistant)?.assistant || \"\";\n\n// Optionen aus letzter Nachricht extrahieren\nconst optionLines = lastAssistant.split(\"\\n\").filter(l => /^[1-9]\\s?—/.test(l.trim()));\n\nlet resolvedText = text;\nlet isCeremonyNumber = false;\n\nif (/^[1-9]$/.test(text)) {\n  const index = parseInt(text) - 1;\n  if (optionLines.length > 0 && optionLines[index]) {\n    resolvedText = optionLines[index].replace(/^[1-9]\\s?—\\s?/, \"\").trim();\n  } else if (welcomeMap[text]) {\n    resolvedText = welcomeMap[text];\n    isCeremonyNumber = true;\n  }\n}\n\nreturn [{\n  json: {\n    ...$json,\n    user_text: resolvedText,\n    ceremony_mode: isCeremonyNumber ? true : ($json.ceremony_mode || false)\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1168,
+        912
+      ],
+      "id": "68615594-6157-4be8-ad4d-1450a2e7facf",
+      "name": "Code → Ceremony Mode Check"
+    },
+    {
+      "parameters": {
+        "content": "README  ME IN MARKDOWN FORMAT \nPRÄSENTATION ",
+        "height": 272,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1504,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "75be7792-a15d-4acf-8b9c-2bc416e388ed",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Input → Receive User Message": {
+      "main": [
+        [
+          {
+            "node": "Input Preprocessing → Normalize Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input Preprocessing → Normalize Fields": {
+      "main": [
+        [
+          {
+            "node": "Check → User Text Empty?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check → User Text Empty?": {
+      "main": [
+        [
+          {
+            "node": "Response → Ask User For Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check → Start Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check → Start Command": {
+      "main": [
+        [
+          {
+            "node": "User wird abgerufen bei eingäbe von /start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "User wird abgerufen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Neuer User wird angelegt": {
+      "main": [
+        [
+          {
+            "node": "Response → Send Welcome",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User wird abgerufen": {
+      "main": [
+        [
+          {
+            "node": "User existiert?2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User existiert?1": {
+      "main": [
+        [
+          {
+            "node": "Response → Send Welcome1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Antworten werden gesendet ohne Bild": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API MONDKALENDAR": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Apotheke Manitous",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Psychoactive Plants",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Asana",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User wird abgerufen bei eingäbe von /start": {
+      "main": [
+        [
+          {
+            "node": "User existiert?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Neuer User wird angelegt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User existiert?2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Update documents - Chat wird gespeichert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Encyclopedia of Herbs",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI4": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Shamanism Mircea",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apotheke Manitous": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Psychoactive Plants": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Asana": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encyclopedia of Herbs": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shamanism Mircea": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Bild wird als einzelne Nachricht gesendet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bild wird im Internet gesucht 1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ASTRO DAILY": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ASTRO Personal": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Bild wird im Internet gesucht 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Antworten werden gesendet ohne Bild",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response → Send Welcome1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Update documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ceremony Mode": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Ceremony Mode",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Conversation Mode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Mode": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code → Ceremony Mode Check": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "930f30b0-32f5-4602-a99d-6ad4d95452fc",
+  "meta": {
+    "instanceId": "052ef8dc0571560ff16e9a09546d8740973220c7e3160baf0b986eeba737efa6"
+  },
+  "id": "WJmqdF_5kaxSgDyhq8_Kr",
+  "tags": []
+}
